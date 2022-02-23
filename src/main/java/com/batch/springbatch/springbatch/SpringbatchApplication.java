@@ -18,6 +18,8 @@ public class SpringbatchApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbatchApplication.class, args);
 		// System.out.println("Data source name:" + datasource);
+		
+		System.out.println("Changed in git hub");
 
 		/*
 		 * ConfigurableApplicationContext cac =
