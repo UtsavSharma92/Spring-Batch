@@ -11,24 +11,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
-    
+
+	private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
+
 	@Autowired
-    private JdbcTemplate jdbcTemplate;
-	
+	private JdbcTemplate jdbcTemplate;
+
 	@Override
 	public void afterJob(JobExecution jobExecution) {
-	    if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-	        LOGGER.info("!!! JOB FINISHED! Time to verify the results");
+		if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
 
-	        String query = "SELECT brand, origin, characteristics FROM coffee";
-	        jdbcTemplate.query(query, (rs, row) -> new Coffee(rs.getString(1), rs.getString(2), rs.getString(3)))
-	          .forEach(coffee -> LOGGER.info("Found < {} > in the database.", coffee.getBrand()));
-	        
-	        
-	    }
+			log.info("Inside afterJob() method");
+
+			log.info("!!! JOB FINISHED! Time to verify the results");
+
+			String query = "SELECT brand, origin, characteristics FROM coffee";
+			jdbcTemplate.query(query, (rs, row) -> new Coffee(rs.getString(1), rs.getString(2), rs.getString(3)))
+					.forEach(coffee -> log.info("Found < {} > in the database.", coffee.getBrand()));
+
+		}
 	}
-
 
 }

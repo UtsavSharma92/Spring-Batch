@@ -2,6 +2,8 @@ package com.batch.springbatch.springbatch;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,12 +16,14 @@ public class SpringbatchApplication implements CommandLineRunner {
 
 	@Autowired
 	DataSource datasource;
+	
+	private static final Logger log = LoggerFactory.getLogger(SpringbatchApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbatchApplication.class, args);
 		// System.out.println("Data source name:" + datasource);
 		
-		System.out.println("Changed in git hub");
+		log.info("run() method completed, application ended");
 
 		/*
 		 * ConfigurableApplicationContext cac =

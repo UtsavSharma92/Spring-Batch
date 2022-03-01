@@ -7,19 +7,26 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CoffeeItemProcessor implements ItemProcessor<Coffee, Coffee> {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CoffeeItemProcessor.class);
 
-    @Override
-    public Coffee process(final Coffee coffee) throws Exception {
-        String brand = coffee.getBrand().toUpperCase();
-        String origin = coffee.getOrigin().toUpperCase();
-        String chracteristics = coffee.getCharacteristics().toUpperCase();
+	private static final Logger log = LoggerFactory.getLogger(CoffeeItemProcessor.class);
 
-        Coffee transformedCoffee = new Coffee(brand, origin, chracteristics);
-        LOGGER.info("Converting ( {} ) into ( {} )", coffee, transformedCoffee);
+	@Override
+	public Coffee process(final Coffee coffee) throws Exception {
 
-        return transformedCoffee;
-    }
+		log.info("Inside Coffee process() method");
+		
+		
+		log.info("get coffee brand through constructor:"+ new Coffee().getBrand());		
+		
+
+		String brand = coffee.getBrand().toUpperCase();
+		String origin = coffee.getOrigin().toUpperCase();
+		String chracteristics = coffee.getCharacteristics().toUpperCase();
+
+		Coffee transformedCoffee = new Coffee(brand, origin, chracteristics);
+		log.info("Converting ( {} ) into ( {} )", coffee, transformedCoffee);
+
+		return transformedCoffee;
+	}
 
 }

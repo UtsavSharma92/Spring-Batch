@@ -35,11 +35,13 @@ public class BatchConfiguration {
 
 	@Autowired
 	public DataSource dataSource;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(BatchConfiguration.class);
+
+	private static final Logger log = LoggerFactory.getLogger(BatchConfiguration.class);
 
 	@Bean
 	public FlatFileItemReader<Coffee> reader() {
+
+		log.info("Inside FlatFileItemReader reader() method");
 
 		return new FlatFileItemReaderBuilder().name("utsav").resource(new ClassPathResource("coffee-list.csv"))
 				.delimited().names(new String[] { "brand", "origin", "characteristics" })
@@ -62,36 +64,39 @@ public class BatchConfiguration {
 
 	@Bean
 	public JdbcBatchItemWriter writer(DataSource dataSource) {
+
+		log.info("Inside JdbcBatchItemWriter writer() method");
+
 		return new JdbcBatchItemWriterBuilder()
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
 				.sql("INSERT INTO coffee (brand, origin, characteristics) VALUES (:brand, :origin, :characteristics)")
 				.dataSource(dataSource).build();
 	}
-	
+
 	@Bean
 	public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
-	    return jobBuilderFactory.get("importUserJob")
-	      .incrementer(new RunIdIncrementer())
-	      .listener(listener)
-	      .flow(step1)
-	      .end()
-	      .build();
+
+		log.info("Inside Job importUserJob() method");
+
+		return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener).flow(step1)
+				.end().build();
 	}
-	
-	
+
 	@Bean
 	public Step step1(JdbcBatchItemWriter writer) {
-	    return stepBuilderFactory.get("step1")
-	      .<Coffee, Coffee> chunk(10)
-	      .reader(reader())
-	      .processor(processor())
-	      .writer(writer)
-	      .build();
+
+		log.info("Inside Step step1() method");
+
+		return stepBuilderFactory.get("step1").<Coffee, Coffee>chunk(10).reader(reader()).processor(processor())
+				.writer(writer).build();
 	}
 
 	@Bean
 	public CoffeeItemProcessor processor() {
-	    return new CoffeeItemProcessor();
+
+		log.info("Inside CoffeeItemProcessor processor() method");
+
+		return new CoffeeItemProcessor();
 	}
 
 }
