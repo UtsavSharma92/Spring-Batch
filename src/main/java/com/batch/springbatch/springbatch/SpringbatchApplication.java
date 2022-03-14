@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariDataSource;
 
 @SpringBootApplication
@@ -16,13 +18,13 @@ public class SpringbatchApplication implements CommandLineRunner {
 
 	@Autowired
 	DataSource datasource;
-	
+
 	private static final Logger log = LoggerFactory.getLogger(SpringbatchApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbatchApplication.class, args);
 		// System.out.println("Data source name:" + datasource);
-		
+
 		log.info("run() method completed, application ended");
 
 		/*
@@ -38,11 +40,9 @@ public class SpringbatchApplication implements CommandLineRunner {
 
 		HikariDataSource ds = (HikariDataSource) datasource;
 
-		System.out.println("Connection pool size:" + ds.getMaximumPoolSize());
-
-		System.out.println("Driver class name:" + ds.getDriverClassName());
-
-		System.out.println("Get user name:" + ds.getUsername());
+		log.info("Connection pool size:" + ds.getMaximumPoolSize());
+		log.info("Driver class name:" + ds.getDriverClassName());
+		log.info("Connection pool size:" + ds.getMaximumPoolSize());
 
 	}
 
